@@ -1,17 +1,6 @@
 import torch as tch
 import torch.nn as nn
 
-class LinearR(nn.Module):
-    def __init__(self, input_size, output_size):
-        super(LinearR, self).__init__()
-        self.linear = nn.Linear(input_size, output_size)
-        self.sigmoid = nn.Sigmoid() 
-
-    def forward(self, x):
-        out = self.linear(x)
-        out = self.sigmoid(out)
-        return out
-
 class NeuralNetwork(nn.Module):
     
     def __init__(self):
@@ -34,6 +23,8 @@ class NeuralNetwork(nn.Module):
         op = self.out(op)
         y = self.final(op)
         return y
+
+z
     
 class NeuralNetworkWithDOL(nn.Module):
     #Adding dropout layers within Neural Network to reduce overfitting
