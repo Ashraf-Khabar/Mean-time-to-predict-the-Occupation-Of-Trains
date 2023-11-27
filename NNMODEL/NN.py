@@ -6,7 +6,7 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
         tch.manual_seed(2020)
-        self.fc1 = nn.Linear(48, 96)
+        self.fc1 = nn.Linear(98, 96)
         self.fc2 = nn.Linear(96, 192)
         self.fc3 = nn.Linear(192, 384)
         self.out = nn.Linear(384, 1)
