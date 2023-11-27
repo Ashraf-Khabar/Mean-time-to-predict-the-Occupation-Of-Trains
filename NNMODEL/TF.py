@@ -42,45 +42,45 @@ def train_network(model, optimizer, loss_function, num_epochs, batch_size, X_tra
 
 # Defining the Function to Evaluate the Model Performance
 
-def evaluate_model(model,x_test,y_test,X_train,Y_train,loss_list):
-    model.eval() #Explicitly set to evaluate mode
-    #Predict on Train and Validation Datasets
+def evaluate_model(model, x_test, y_test, X_train, Y_train, loss_list):
+    model.eval()  # Explicitly set to evaluate mode
+    # Predict on Train and Validation Datasets
     y_test_prob = model(x_test)
-    y_test_pred =np.where(y_test_prob>0.5,1,0)
+    y_test_pred = np.where(y_test_prob > 0.5, 1, 0)
     Y_train_prob = model(X_train)
-    Y_train_pred =np.where(Y_train_prob>0.5,1,0)
-    #Compute Training and Validation Metrics
+    Y_train_pred = np.where(Y_train_prob > 0.5, 1, 0)
+    # Compute Training and Validation Metrics
     print("\n Model Performance -")
-    print("Training Accuracy-",round(accuracy_score(Y_train, Y_train_pred),3))
-    print("Training Precision-",round(precision_score (Y_train,Y_train_pred),3))
-    print("Training Recall-",round(recall_score(Y_train, Y_train_pred),3))
-    print("Training ROCAUC", round(roc_auc_score(Y_train,Y_train_prob.detach().numpy()),3))
+    print("Training Accuracy-", round(accuracy_score(Y_train, Y_train_pred), 3))
+    print("Training Precision-", round(precision_score(Y_train, Y_train_pred), 3))
+    print("Training Recall-", round(recall_score(Y_train, Y_train_pred), 3))
+    print("Training ROCAUC", round(roc_auc_score(Y_train, Y_train_prob.detach().numpy()), 3))
 
-    print("Validation Accuracy-",round(accuracy_score(y_test, y_test_pred),3))
-    print("Validation Precision-",round(precision_score(y_test, y_test_pred),3))
-    print("Validation Recall-",round(recall_score(y_test, y_test_pred),3))
-    print("Validation ROCAUC", round(roc_auc_score(y_test,y_test_prob.detach().numpy()),3))
+    print("Validation Accuracy-", round(accuracy_score(y_test, y_test_pred), 3))
+    print("Validation Precision-", round(precision_score(y_test, y_test_pred), 3))
+    print("Validation Recall-", round(recall_score(y_test, y_test_pred), 3))
+    print("Validation ROCAUC", round(roc_auc_score(y_test, y_test_prob.detach().numpy()), 3))
     print("\n")
 
-    #Plot the Loss curve and ROC Curve
-    plt.figure(figsize=(20,5))
+    # Plot the Loss curve and ROC Curve
+    plt.figure(figsize=(20, 5))
     plt.subplot(1, 2, 1)
     plt.plot(loss_list)
     plt.title('Loss across epochs')
     plt.ylabel('Loss')
     plt.xlabel('Epochs')
     plt.subplot(1, 2, 2)
-    #Validation
+    # Validation
     fpr_v, tpr_v, _ = roc_curve(y_test, y_test_prob.detach().numpy())
     roc_auc_v = auc(fpr_v, tpr_v)
-    #Training
+    # Training
     fpr_t, tpr_t, _ = roc_curve(Y_train, Y_train_prob.detach().numpy())
     roc_auc_t = auc(fpr_t, tpr_t)
     plt.title('Receiver Operating Characteristic:Validation')
-    plt.plot(fpr_v, tpr_v, 'b', label = 'Validation AUC = %0.2f' % roc_auc_v)
-    plt.plot(fpr_t, tpr_t, 'r', label = 'Training AUC = %0.2f' % roc_auc_t)
-    plt.legend(loc = 'lower right')
-    plt.plot([0, 1], [0, 1],'r--')
+    plt.plot(fpr_v, tpr_v, 'b', label='Validation AUC = %0.2f' % roc_auc_v)
+    plt.plot(fpr_t, tpr_t, 'r', label='Training AUC = %0.2f' % roc_auc_t)
+    plt.legend(loc='lower right')
+    plt.plot([0, 1], [0, 1], 'r--')
     plt.xlim([0, 1])
     plt.ylim([0, 1])
     plt.ylabel('True Positive Rate')
